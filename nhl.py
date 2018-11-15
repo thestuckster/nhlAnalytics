@@ -5,15 +5,14 @@ from bokeh.plotting import ColumnDataSource
 
 
 def main():
-
     nhl_df = pandas.read_csv("NHL2017.csv")
 
     build_position_chart(nhl_df)
     build_average_points_per_age_bracket_chart(nhl_df)
     build_average_points_per_age(nhl_df)
 
-def build_position_chart(df):
 
+def build_position_chart(df):
     centers = df.query('Pos == "C"')
     left_wing = df.query('Pos == "LW"')
     right_wing = df.query('Pos == "RW"')
@@ -32,7 +31,6 @@ def build_position_chart(df):
 
 
 def build_average_points_per_age_bracket_chart(df):
-
     points = 'PTS'
 
     lower = df.query('Age <= 25')
@@ -54,7 +52,6 @@ def build_average_points_per_age_bracket_chart(df):
 
 
 def build_average_points_per_age(df):
-
     df.fillna(0)
     max = df['Age'].max()
     min = df['Age'].min()
@@ -63,7 +60,7 @@ def build_average_points_per_age(df):
 
     age = []
     avg = []
-    for x in range(min, max+1):
+    for x in range(min, max + 1):
         age_df = df.query("Age == " + str(x))
 
         sum = age_df['PTS'].sum()
@@ -71,15 +68,12 @@ def build_average_points_per_age(df):
             age.append(x)
             avg.append(sum / len(age_df.index))
 
-
     source = ColumnDataSource(data=dict(age=age, avg=avg))
-
-    output_file("averagePointsPerAge2017.html")
     p = figure(title="Average Points Per Age, 2017")
-    # p.line(age, avg, line_width=5)
     p.line(x='age', y='avg', line_width=4, source=source, color="#003f5c")
     p.circle(x='age', y='avg', line_width=5, source=source, color="#bc5090")
 
+    output_file("averagePointsPerAge2017.html")
     show(p)
 
 

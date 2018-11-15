@@ -8,8 +8,6 @@ def main():
 
     nhl_df = pandas.read_csv("NHL2017.csv")
 
-    print(nhl_df.query("Age > 40").to_string())
-
     build_position_chart(nhl_df)
     build_average_points_per_age_bracket_chart(nhl_df)
     build_average_points_per_age(nhl_df)
